@@ -1,11 +1,11 @@
 @HoneyDoApi_HostAddress = http://localhost:5007
 
-GET {{HoneyDoApi_HostAddress}}/todos/
+GET {{HoneyDoApi_HostAddress}}/reminders/
 Accept: application/json
 
 ###
 
-GET {{HoneyDoApi_HostAddress}}/todos/1
+GET {{HoneyDoApi_HostAddress}}/reminders/1
 Accept: application/json
 
 ###
