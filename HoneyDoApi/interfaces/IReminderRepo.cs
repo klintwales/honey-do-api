@@ -6,6 +6,7 @@ namespace HoneyDoApi.interfaces;
 
 public interface IReminderRepo
 {
-    Task<Reminder> GetAllReminders(string id);
-    // Add other methods as needed
+    Task<Reminder> GetAllReminders();
+    Task<Reminder> GetReminderById(int id);
+    void CreateReminder(Reminder reminder);
 }

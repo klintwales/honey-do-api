@@ -7,8 +7,18 @@ public class ReminderRepo(IMongoDatabase database) : IReminderRepo
 {
     private readonly IMongoCollection<Reminder> _reminders = database.GetCollection<Reminder>("reminders");
 
-    public async Task<Reminder> GetAllReminders(string id)
+    public async Task<Reminder> GetAllReminders()
     {
         return await _reminders.Find(r => r.GetType() == typeof(Reminder)).FirstOrDefaultAsync();
+    }
+
+    public async Task<Reminder> GetReminderById(int id)
+    {
+        return await _reminders.Find(r => r.Id == id).FirstOrDefaultAsync();
+    }
+
+    public void CreateReminder(Reminder reminder)
+    { 
+        _reminders.InsertOne(reminder);
     }
 }
