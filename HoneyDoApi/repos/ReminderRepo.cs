@@ -1,5 +1,6 @@
 using HoneyDoApi.interfaces;
 using HoneyDoApi.models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace HoneyDoApi.repos;
@@ -12,7 +13,7 @@ public class ReminderRepo(IMongoDatabase database) : IReminderRepo
         return await _reminders.Find(r => r.GetType() == typeof(Reminder)).FirstOrDefaultAsync();
     }
 
-    public async Task<Reminder> GetReminderById(int id)
+    public async Task<Reminder> GetReminderById(BsonObjectId id)
     {
         return await _reminders.Find(r => r.Id == id).FirstOrDefaultAsync();
     }

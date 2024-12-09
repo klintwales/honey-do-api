@@ -9,3 +9,11 @@ GET {{HoneyDoApi_HostAddress}}/reminders/1
 Accept: application/json
 
 ###
+POST {{HoneyDoApi_HostAddress}}/reminders/create-reminder
+Content-Type: application/json
+
+{
+"Title": "new reminder",
+  "Description": "new description",
+  "Complete": true
+}
