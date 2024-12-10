@@ -9,5 +9,5 @@ public interface IReminderRepo
 {
     Task<Reminder> GetAllReminders();
     Task<Reminder> GetReminderById(BsonObjectId id);
-    void CreateReminder(Reminder reminder);
+    Task CreateReminder(Reminder reminder);
 }

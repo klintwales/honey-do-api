@@ -11,16 +11,16 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
 });
-builder.Services.AddSingleton<IMongoClient>(_ =>
-{
-    var connectionString = builder.Configuration.GetValue<string>(("MongoDBSettings:ConnectionString"));
-    return new MongoClient(connectionString);
-});
-builder.Services.AddScoped<IMongoDatabase>(sp => 
-    sp.GetRequiredService<IMongoClient>()
-        .GetDatabase(builder.Configuration.GetValue<string>("MongoDBSettings:DatabaseName")));
-builder.Services.AddScoped<IReminderRepo, ReminderRepo>();
-builder.Services.AddScoped<IReminderService, ReminderService>();
+
+var connectionString = builder.Configuration.GetValue<string>(("MongoDBSettings:ConnectionString"));
+var settings = MongoClientSettings.FromConnectionString(connectionString);
+settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+var client = new MongoClient(settings);
+var database = client.GetDatabase(builder.Configuration.GetValue<string>("MongoDBSettings:DatabaseName"));
+
+builder.Services.AddSingleton(database);
+builder.Services.AddSingleton<IReminderRepo, ReminderRepo>();
+builder.Services.AddSingleton<IReminderService, ReminderService>();
 var app = builder.Build();
 
 var reminders = new List<Reminder> { new Reminder() };
@@ -30,12 +30,19 @@ todosApi.MapGet("/get-all", () => reminders);
 todosApi.MapPost("/create-reminder", async (HttpContext context, IReminderService reminderService) =>
 {
     var reminder = new Reminder();
-    reminder.Title = "Reminder";
+    reminder.Title = "Reminder2";
     reminder.Description = "Description";
     reminder.Complete = false;
     reminder.CreatedDate = DateTime.UtcNow;
     reminder.ModifiedDate = DateTime.UtcNow;
-    await reminderService.CreateReminder(reminder);
+    try
+    {
+        await reminderService.CreateReminder(reminder);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.InnerException);
+    }
     return Results.Ok("Reminder created");
 
 });

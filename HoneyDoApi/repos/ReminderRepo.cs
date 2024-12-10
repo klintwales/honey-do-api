@@ -18,8 +18,8 @@ public class ReminderRepo(IMongoDatabase database) : IReminderRepo
         return await _reminders.Find(r => r.Id == id).FirstOrDefaultAsync();
     }
 
-    public void CreateReminder(Reminder reminder)
-    { 
-        _reminders.InsertOne(reminder);
+    public async Task CreateReminder(Reminder reminder)
+    {
+        await _reminders.InsertOneAsync(reminder);
     }
 }
