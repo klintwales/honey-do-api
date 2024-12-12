@@ -13,7 +13,7 @@ POST {{HoneyDoApi_HostAddress}}/reminders/create-reminder
 Content-Type: application/json
 
 {
-"Title": "new reminder",
+"Title": "new reminder again",
   "Description": "new description",
   "Complete": true
 }

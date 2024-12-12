@@ -13,9 +13,14 @@ public class ReminderRepo(IMongoDatabase database) : IReminderRepo
         return await _reminders.Find(r => r.GetType() == typeof(Reminder)).FirstOrDefaultAsync();
     }
 
-    public async Task<Reminder> GetReminderById(BsonObjectId id)
+    public async Task<Reminder> GetReminderById(ObjectId id)
     {
-        return await _reminders.Find(r => r.Id == id).FirstOrDefaultAsync();
+        var reminder = await _reminders.Find(r => r.Id == id).FirstOrDefaultAsync();
+        if (reminder == null)
+        {
+            throw new Exception("No document found with this id.");
+        }
+        return reminder;
     }
 
     public async Task CreateReminder(Reminder reminder)

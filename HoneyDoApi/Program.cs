@@ -27,21 +27,16 @@ var reminders = new List<Reminder> { new Reminder() };
 
 var todosApi = app.MapGroup("/reminders");
 todosApi.MapGet("/get-all", () => reminders);
-todosApi.MapPost("/create-reminder", async (HttpContext context, IReminderService reminderService) =>
+todosApi.MapPost("/create-reminder", async (HttpContext context, IReminderService reminderService, Reminder reminder) =>
 {
-    var reminder = new Reminder();
-    reminder.Title = "Reminder2";
-    reminder.Description = "Description";
-    reminder.Complete = false;
-    reminder.CreatedDate = DateTime.UtcNow;
-    reminder.ModifiedDate = DateTime.UtcNow;
     try
     {
         await reminderService.CreateReminder(reminder);
     }
     catch (Exception ex)
     {
-        Console.WriteLine(ex.InnerException);
+        Console.WriteLine(ex);
+        return Results.StatusCode(500);
     }
     return Results.Ok("Reminder created");
 
