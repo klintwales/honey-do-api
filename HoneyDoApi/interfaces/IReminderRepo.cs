@@ -8,6 +8,8 @@ namespace HoneyDoApi.interfaces;
 public interface IReminderRepo
 {
     Task<Reminder> GetAllReminders();
-    Task<Reminder> GetReminderById(ObjectId id);
+    Task<Reminder> GetReminderById(string id);
     Task CreateReminder(Reminder reminder);
+
+    Task<UpdateResult> UpdateReminder(Reminder reminder);
 }

@@ -41,6 +41,20 @@ todosApi.MapPost("/create-reminder", async (HttpContext context, IReminderServic
     return Results.Ok("Reminder created");
 
 });
+todosApi.MapPost("/update-reminder", async (HttpContext context, IReminderService reminderService, Reminder reminder) =>
+{
+    try
+    {
+        await reminderService.UpdateReminder(reminder);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex);
+        return Results.StatusCode(500);
+    }
+    return Results.Ok("Reminder created");
+
+});
 app.Run();
 [JsonSerializable(typeof(List<Reminder>))]
 internal partial class AppJsonSerializerContext : JsonSerializerContext

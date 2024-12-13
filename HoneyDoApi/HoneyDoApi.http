@@ -5,7 +5,7 @@ Accept: application/json
 
 ###
 
-GET {{HoneyDoApi_HostAddress}}/reminders/1
+GET {{HoneyDoApi_HostAddress}}/reminders/675a3faa823051807018197e
 Accept: application/json
 
 ###
@@ -16,4 +16,15 @@ Content-Type: application/json
 "Title": "new reminder again",
   "Description": "new description",
   "Complete": true
+}
+
+###
+POST {{HoneyDoApi_HostAddress}}/reminders/update-reminder
+Content-Type: application/json
+
+{
+  "Id": "675ba9b90644ac25f2a7f480",
+  "Title": "newer reminder",
+  "Description": "updated description",
+  "Complete": false
 }
