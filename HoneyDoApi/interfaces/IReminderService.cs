@@ -5,8 +5,10 @@ namespace HoneyDoApi.interfaces;
 
 public interface IReminderService
 {
-    public Task<Reminder> CreateReminder(Reminder newReminder);
+    public Task<Reminder> CreateReminderAsync(Reminder newReminder);
+
+    public Task<Reminder> GetReminderByIdAsync(string reminderId);
     
-    public Task<UpdateResult> UpdateReminder(Reminder updatedReminder);
+    public Task<Reminder> UpdateReminderAsync(Reminder updatedReminder);
     
 }

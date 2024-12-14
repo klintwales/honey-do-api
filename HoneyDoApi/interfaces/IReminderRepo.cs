@@ -11,5 +11,5 @@ public interface IReminderRepo
     Task<Reminder> GetReminderById(string id);
     Task CreateReminder(Reminder reminder);
 
-    Task<UpdateResult> UpdateReminder(Reminder reminder);
+    Task<Reminder> UpdateReminder(Reminder reminder);
 }

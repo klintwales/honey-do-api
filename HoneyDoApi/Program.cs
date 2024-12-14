@@ -26,33 +26,45 @@ var app = builder.Build();
 var reminders = new List<Reminder> { new Reminder() };
 
 var todosApi = app.MapGroup("/reminders");
-todosApi.MapGet("/get-all", () => reminders);
+todosApi.MapGet("/get-reminder-by-id/",
+    async (HttpContext context, IReminderService reminderService, string reminderId) =>
+    {
+        try
+        {
+            return Results.Ok(await reminderService.GetReminderByIdAsync(reminderId));
+        }    
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return Results.StatusCode(500);
+        }
+        return Results.StatusCode(500);
+        
+    });
 todosApi.MapPost("/create-reminder", async (HttpContext context, IReminderService reminderService, Reminder reminder) =>
 {
     try
     {
-        await reminderService.CreateReminder(reminder);
+        return Results.Ok(await reminderService.CreateReminderAsync(reminder));
     }
     catch (Exception ex)
     {
         Console.WriteLine(ex);
         return Results.StatusCode(500);
     }
-    return Results.Ok("Reminder created");
 
 });
 todosApi.MapPost("/update-reminder", async (HttpContext context, IReminderService reminderService, Reminder reminder) =>
 {
     try
     {
-        await reminderService.UpdateReminder(reminder);
+        return Results.Ok(await reminderService.UpdateReminderAsync(reminder));
     }
     catch (Exception ex)
     {
         Console.WriteLine(ex);
         return Results.StatusCode(500);
     }
-    return Results.Ok("Reminder created");
 
 });
 app.Run();

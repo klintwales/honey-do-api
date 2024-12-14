@@ -29,7 +29,7 @@ public class ReminderRepo(IMongoDatabase database) : IReminderRepo
         await _reminders.InsertOneAsync(reminder);
     }
 
-    public async Task<UpdateResult> UpdateReminder(Reminder reminder)
+    public async Task<Reminder> UpdateReminder(Reminder reminder)
     {
         var filter = Builders<Reminder>.Filter.Eq("_id", new ObjectId(reminder.Id));
         var update = Builders<Reminder>.Update
@@ -40,7 +40,7 @@ public class ReminderRepo(IMongoDatabase database) : IReminderRepo
         var options = new FindOneAndUpdateOptions<Reminder>{
             ReturnDocument = ReturnDocument.After
         };
-        var returnedReminder = await _reminders.UpdateOneAsync(filter, update);
+        var returnedReminder = await _reminders.FindOneAndUpdateAsync(filter, update);
         return returnedReminder;
     }
 }

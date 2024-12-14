@@ -5,7 +5,7 @@ Accept: application/json
 
 ###
 
-GET {{HoneyDoApi_HostAddress}}/reminders/675a3faa823051807018197e
+GET {{HoneyDoApi_HostAddress}}/reminders/get-reminder-by-id/?reminderId=675ba9b90644ac25f2a7f480
 Accept: application/json
 
 ###
