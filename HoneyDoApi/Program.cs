@@ -21,8 +21,17 @@ var database = client.GetDatabase(builder.Configuration.GetValue<string>("MongoD
 builder.Services.AddSingleton(database);
 builder.Services.AddSingleton<IReminderRepo, ReminderRepo>();
 builder.Services.AddSingleton<IReminderService, ReminderService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("LocalhostOnly", policy =>
+    {
+        policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
-
+app.UseCors("LocalhostOnly");
 var reminders = new List<Reminder> { new Reminder() };
 
 var todosApi = app.MapGroup("/reminders");
